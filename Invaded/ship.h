@@ -3,7 +3,9 @@
 #include "entity_manager.h"
 #include "score.h"
 
+extern int playerAmmo;
 extern int ammo;
+extern bool gameOver;
 
 class Ship : public Entity
 {

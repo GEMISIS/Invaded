@@ -4,7 +4,7 @@
 float direction = 0.75f;
 int ammo = 5;
 
-Enemy::Enemy(EntityManager* manager, float x, float y)
+Enemy::Enemy(Lives* lives, EntityManager* manager, float x, float y)
 {
 	this->active = 1;
 	this->groupId = 2;
@@ -14,6 +14,7 @@ Enemy::Enemy(EntityManager* manager, float x, float y)
 	this->setPosition(x - this->getGlobalBounds().width / 2, y - this->getGlobalBounds().height / 2);
 
 	this->manager = manager;
+	this->lives = lives;
 }
 
 void Enemy::Update(sf::RenderWindow* window)
@@ -23,7 +24,7 @@ void Enemy::Update(sf::RenderWindow* window)
 		int chance = rand() % 100 + 1;
 		if (chance < 2)
 		{
-			this->manager->Add("bullet", new Bullet(this->getPosition().x, this->getPosition().y + 32, 1, false));
+			this->manager->Add("bullet", new Bullet(this->lives, this->getPosition().x, this->getPosition().y + 32, 1, false));
 			ammo -= 1;
 		}
 	}

@@ -1,6 +1,6 @@
 #include "bullet.h"
 
-Bullet::Bullet(float x, float y, float direction, bool good)
+Bullet::Bullet(Lives* lives, float x, float y, float direction, bool good)
 {
 	this->active = 1;
 	if (good)
@@ -18,6 +18,8 @@ Bullet::Bullet(float x, float y, float direction, bool good)
 	this->velocity.y = direction;
 
 	this->setPosition(x - this->getGlobalBounds().width / 2, y - this->getGlobalBounds().height / 2);
+
+	this->lives = lives;
 }
 
 Bullet::Bullet(Score* score, float x, float y, float direction, bool good)
@@ -50,6 +52,10 @@ void Bullet::Update(sf::RenderWindow* window)
 		{
 			ammo += 1;
 		}
+		else if (this->GroupID() == 3)
+		{
+			playerAmmo += 1;
+		}
 		this->Destroy();
 	}
 	Entity::Update(window);
@@ -65,7 +71,9 @@ void Bullet::Collision(Entity* entity)
 		case 3:
 		case 4:
 			break;
-		default:
+		case 2:
+			playerAmmo += 1;
+			enemyCount -= 1;
 			this->score->IncrementScore();
 			entity->Destroy();
 			this->Destroy();
@@ -82,7 +90,7 @@ void Bullet::Collision(Entity* entity)
 			break;
 		default:
 			ammo += 1;
-			entity->Destroy();
+			this->lives->RemoveLife();
 			this->Destroy();
 			break;
 		}

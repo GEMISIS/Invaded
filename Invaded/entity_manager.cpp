@@ -35,15 +35,18 @@ void EntityManager::Update(sf::RenderWindow* window)
 
 	for (auto& iterator : this->entities)
 	{
-		for (auto& iterator2 : this->entities)
+		if (iterator.second->GroupID() > 2 || iterator.second->GroupID() == 1)
 		{
-			if (iterator.first != iterator2.first)
+			for (auto& iterator2 : this->entities)
 			{
-				if (iterator.second->GroupID() > 2)
+				if (iterator.first != iterator2.first)
 				{
-					if (iterator.second->CheckCollision(iterator2.second))
+					if (iterator.second->Active() && iterator2.second->Active())
 					{
-						iterator.second->Collision(iterator2.second);
+						if (iterator.second->CheckCollision(iterator2.second))
+						{
+							iterator.second->Collision(iterator2.second);
+						}
 					}
 				}
 			}

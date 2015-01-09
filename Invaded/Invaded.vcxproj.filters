@@ -45,9 +45,6 @@
     <ClInclude Include="main_menu.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="score.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="entity_manager.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -60,6 +57,18 @@
     <ClInclude Include="bullet.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="lives.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="game_over.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="win_screen.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -70,9 +79,6 @@
     </ClCompile>
     <ClCompile Include="main_menu.cpp">
       <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="score.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="entity_manager.cpp">
       <Filter>Source Files\Core</Filter>
@@ -88,6 +94,18 @@
     </ClCompile>
     <ClCompile Include="entity.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="lives.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="game_over.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="win_screen.cpp">
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
