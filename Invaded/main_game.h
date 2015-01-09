@@ -19,6 +19,5 @@ private:
 
 	bool paused, enterKey;
 
-	Entity test;
-	EntityManager manager;
+	EntityManager* manager;
 };

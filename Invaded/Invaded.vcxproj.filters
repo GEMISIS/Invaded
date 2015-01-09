@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{f8669f6c-95a1-49b6-a8b2-72ef62b094ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{412b1bcd-85cb-46ac-880c-6b1a797e27e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{92dfd422-f394-4c09-a312-cce737f40ec7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h">
@@ -45,6 +51,15 @@
     <ClInclude Include="entity_manager.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="ship.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +75,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="entity_manager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ship.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>

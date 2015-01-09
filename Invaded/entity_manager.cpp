@@ -15,12 +15,62 @@ void EntityManager::Add(std::string name, Entity* entity)
 	this->entities.insert(std::make_pair(name, entity));
 }
 
-void EntityManager::Update()
+Entity* EntityManager::Get(std::string name)
 {
+	std::unordered_map<std::string, Entity*>::const_iterator found = this->entities.find(name);
+	
+	if (found == this->entities.end())
+	{
+		return NULL;
+	}
+	else
+	{
+		return found->second;
+	}
+}
+
+void EntityManager::Update(sf::RenderWindow* window)
+{
+	std::vector<std::string> toRemove;
+
 	for (auto& iterator : this->entities)
 	{
-		iterator.second->Update();
+		for (auto& iterator2 : this->entities)
+		{
+			if (iterator.first != iterator2.first)
+			{
+				if (iterator.second->GroupID() > 2)
+				{
+					if (iterator.second->CheckCollision(iterator2.second))
+					{
+						iterator.second->Collision(iterator2.second);
+					}
+				}
+			}
+		}
+
+		switch (iterator.second->Active())
+		{
+		case 0:
+			toRemove.push_back(iterator.first);
+			break;
+		default:
+			iterator.second->Update(window);
+			break;
+		}
 	}
+
+	for (auto& iterator : toRemove)
+	{
+		std::unordered_map<std::string, Entity*>::const_iterator found = this->entities.find(iterator);
+
+		if (found != this->entities.end())
+		{
+			delete found->second;
+			this->entities.erase(iterator);
+		}
+	}
+	toRemove.clear();
 }
 
 void EntityManager::Render(sf::RenderWindow* window)
@@ -33,5 +83,9 @@ void EntityManager::Render(sf::RenderWindow* window)
 
 EntityManager::~EntityManager()
 {
+	for (auto& iterator : this->entities)
+	{
+		delete iterator.second;
+	}
 	this->entities.clear();
 }

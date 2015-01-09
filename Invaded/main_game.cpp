@@ -1,6 +1,9 @@
 #include "main_game.h"
 #include "main_menu.h"
 
+#include "ship.h"
+#include "enemy.h"
+
 void main_game::Initialize(sf::RenderWindow* window)
 {
 	this->font = new sf::Font();
@@ -14,8 +17,17 @@ void main_game::Initialize(sf::RenderWindow* window)
 	this->paused = false;
 	this->enterKey = false;
 
-	this->test.Load("ball.png");
-	this->manager.Add("test", &test);
+	manager = new EntityManager();
+
+	this->manager->Add("ship", new Ship(this->score, this->manager, window->getSize().x / 2, window->getSize().y));
+
+	for (int y = 0; y < 5; y += 1)
+	{
+		for (int x = 0; x < 10; x += 1)
+		{
+			this->manager->Add("enemy", new Enemy(this->manager, 16 + 48 * x, 32 + 48 * y));
+		}
+	}
 }
 void main_game::Update(sf::RenderWindow* window)
 {
@@ -32,7 +44,7 @@ void main_game::Update(sf::RenderWindow* window)
 	}
 	else
 	{
-		this->manager.Update();
+		this->manager->Update(window);
 		this->score->Update();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Return) && !this->enterKey)
 		{
@@ -44,7 +56,7 @@ void main_game::Update(sf::RenderWindow* window)
 }
 void main_game::Render(sf::RenderWindow* window)
 {
-	this->manager.Render(window);
+	this->manager->Render(window);
 	window->draw(*this->score);
 
 	if (this->paused)
@@ -55,6 +67,8 @@ void main_game::Render(sf::RenderWindow* window)
 void main_game::Destroy(sf::RenderWindow* window)
 {
 	delete this->score;
-
+	delete this->pausedText;
 	delete this->font;
+
+	delete this->manager;
 }

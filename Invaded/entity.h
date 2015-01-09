@@ -8,31 +8,26 @@ class Entity : public sf::Sprite
 public:
 	sf::Vector2f velocity;
 
-	Entity()
-	{
-		this->texture = new sf::Texture();
-	}
+	Entity();
 
-	void Load(std::string filename)
-	{
-		this->texture->loadFromFile("Graphics/sprites/" + filename);
-		this->setTexture(*this->texture);
-	}
+	void Load(std::string filename);
 
-	virtual void Update()
-	{
-		this->move(this->velocity);
-	}
+	virtual void Update(sf::RenderWindow* window);
 
-	bool CheckCollision(Entity* entity)
-	{
-		return this->getGlobalBounds().intersects(entity->getGlobalBounds());
-	}
+	bool CheckCollision(Entity* entity);
 
-	~Entity()
-	{
-		delete this->texture;
-	}
+	virtual void Collision(Entity* entity);
+
+	int GroupID();
+
+	int Active();
+
+	void Destroy();
+
+	~Entity();
+protected:
+	int active;
+	int groupId;
 private:
 	sf::Texture* texture;
 };
