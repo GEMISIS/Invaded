@@ -1,17 +1,38 @@
+#include <SFML/Audio.hpp>
 #include <Windows.h>
 
 #include "game_state.h"
 #include "main_menu.h"
 
-game_state coreState; 
+game_state coreState;
 bool quitGame = false;
 
+#ifdef _DEBUG
 int main()
+#else
+int CALLBACK WinMain(
+	_In_  HINSTANCE hInstance,
+	_In_  HINSTANCE hPrevInstance,
+	_In_  LPSTR lpCmdLine,
+	_In_  int nCmdShow
+	)
+#endif
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Ping");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Invaded", sf::Style::Close);
 
 	coreState.SetWindow(&window);
 	coreState.SetState(new main_menu());
+
+	sf::Clock timer;
+	sf::Time elapsed;
+
+	sf::SoundBuffer musicBuffer;
+	musicBuffer.loadFromFile("Sounds/music.wav");
+	sf::Sound music(musicBuffer);
+
+	music.setLoop(true);
+	music.setVolume(10);
+	music.play();
 
 	// run the program as long as the window is open
 	while (window.isOpen())
@@ -25,20 +46,27 @@ int main()
 				window.close();
 		}
 
-		window.clear(sf::Color::Black);
+		elapsed = timer.getElapsedTime();
 
-		coreState.Update();
-		coreState.Render();
-
-		window.display();
-
-		if (quitGame)
+		if (elapsed.asMicroseconds() > 16666)
 		{
-			window.close();
-		}
+			window.clear(sf::Color::Black);
 
-		Sleep(5);
+			coreState.Update();
+			coreState.Render();
+
+			window.display();
+
+			if (quitGame)
+			{
+				window.close();
+			}
+
+			timer.restart();
+		}
 	}
+
+	music.stop();
 
 	return 0;
 }

@@ -22,9 +22,11 @@ private:
 	Score* score;
 	Lives* lives;
 	sf::Text* pausedText;
+	sf::Text* startingText;
 
 	sf::Font* font;
 
+	bool starting;
 	bool paused, enterKey;
 
 	EntityManager* manager;

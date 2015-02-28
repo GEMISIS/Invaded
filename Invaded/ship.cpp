@@ -3,6 +3,8 @@
 
 int playerAmmo = 3;
 
+#define PLAYER_SPEED 4
+
 Ship::Ship(Score* score, EntityManager* manager, float x, float y)
 {
 	this->active = 1;
@@ -19,7 +21,7 @@ Ship::Ship(Score* score, EntityManager* manager, float x, float y)
 
 void Ship::Update(sf::RenderWindow* window)
 {
-	this->velocity.x = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) - sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left);
+	this->velocity.x = (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) - sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) * PLAYER_SPEED;
 	if (!this->space && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 	{
 		if (playerAmmo > 0)

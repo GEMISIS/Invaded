@@ -2,6 +2,8 @@
 #include "main_menu.h"
 #include "main_game.h"
 
+int difficulty = 1;
+
 void main_menu::Initialize(sf::RenderWindow* window)
 {
 	this->selected = 0;
@@ -20,6 +22,26 @@ void main_menu::Initialize(sf::RenderWindow* window)
 	this->quit = new sf::Text("Quit", *this->font, 128U);
 	this->quit->setOrigin(this->quit->getGlobalBounds().width / 2, this->quit->getGlobalBounds().height / 2);
 	this->quit->setPosition(window->getSize().x / 2, window->getSize().y / 2 + this->play->getGlobalBounds().height);
+
+	this->UpdatePlayString(window);
+}
+void main_menu::UpdatePlayString(sf::RenderWindow* window)
+{
+	switch (difficulty)
+	{
+	default:
+	case 1:
+		this->play->setString("Easy");
+		break;
+	case 2:
+		this->play->setString("Medium");
+		break;
+	case 3:
+		this->play->setString("Hard");
+		break;
+	}
+	this->play->setOrigin(this->play->getGlobalBounds().width / 2, this->play->getGlobalBounds().height / 2);
+	this->play->setPosition(window->getSize().x / 2, window->getSize().y / 2);
 }
 void main_menu::Update(sf::RenderWindow* window)
 {
@@ -46,14 +68,39 @@ void main_menu::Update(sf::RenderWindow* window)
 		{
 		case 0:
 			coreState.SetState(new main_game());
-			break;
+			return;
 		case 1:
 			quitGame = true;
 			break;
 		}
 	}
+
+	if (this->selected == 0)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !this->leftKey)
+		{
+			difficulty -= 1;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !this->rightKey)
+		{
+			difficulty += 1;
+		}
+
+		if (difficulty > 3)
+		{
+			difficulty = 1;
+		}
+		if (difficulty < 1)
+		{
+			difficulty = 3;
+		}
+		this->UpdatePlayString(window);
+	}
+
 	this->upKey = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up);
 	this->downKey = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down);
+	this->leftKey = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left);
+	this->rightKey = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right);
 }
 void main_menu::Render(sf::RenderWindow* window)
 {

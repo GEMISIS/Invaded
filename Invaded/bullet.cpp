@@ -1,7 +1,34 @@
+#include <SFML/Audio.hpp>
 #include "bullet.h"
+
+#define BULLET_SPEED 2.5f
+
+sf::SoundBuffer* enemyDeathSoundBuffer = NULL;
+sf::Sound* enemyDeathSound = NULL;
+
+sf::SoundBuffer* playerDeathSoundBuffer = NULL;
+sf::Sound* playerDeathSound = NULL;
+
+void setupSounds()
+{
+	if (enemyDeathSoundBuffer == NULL)
+	{
+		enemyDeathSoundBuffer = new sf::SoundBuffer();
+		enemyDeathSoundBuffer->loadFromFile("Sounds/bounce.wav");
+		enemyDeathSound = new sf::Sound(*enemyDeathSoundBuffer);
+	}
+	if (playerDeathSoundBuffer == NULL)
+	{
+		playerDeathSoundBuffer = enemyDeathSoundBuffer;
+		playerDeathSound = new sf::Sound(*playerDeathSoundBuffer);
+		playerDeathSound->setPitch(0.5f);
+	}
+}
 
 Bullet::Bullet(Lives* lives, float x, float y, float direction, bool good)
 {
+	setupSounds();
+
 	this->active = 1;
 	if (good)
 	{
@@ -15,7 +42,7 @@ Bullet::Bullet(Lives* lives, float x, float y, float direction, bool good)
 	this->setColor(sf::Color::White);
 	this->setScale(0.25f, 0.5f);
 
-	this->velocity.y = direction;
+	this->velocity.y = direction * BULLET_SPEED;
 
 	this->setPosition(x - this->getGlobalBounds().width / 2, y - this->getGlobalBounds().height / 2);
 
@@ -24,6 +51,8 @@ Bullet::Bullet(Lives* lives, float x, float y, float direction, bool good)
 
 Bullet::Bullet(Score* score, float x, float y, float direction, bool good)
 {
+	setupSounds();
+
 	this->active = 1;
 	if (good)
 	{
@@ -37,7 +66,7 @@ Bullet::Bullet(Score* score, float x, float y, float direction, bool good)
 	this->setColor(sf::Color::White);
 	this->setScale(0.25f, 0.5f);
 
-	this->velocity.y = direction;
+	this->velocity.y = direction * BULLET_SPEED;
 
 	this->score = score;
 
@@ -77,6 +106,7 @@ void Bullet::Collision(Entity* entity)
 			this->score->IncrementScore();
 			entity->Destroy();
 			this->Destroy();
+			enemyDeathSound->play();
 			break;
 		}
 	}
@@ -92,6 +122,7 @@ void Bullet::Collision(Entity* entity)
 			ammo += 1;
 			this->lives->RemoveLife();
 			this->Destroy();
+			playerDeathSound->play();
 			break;
 		}
 	}

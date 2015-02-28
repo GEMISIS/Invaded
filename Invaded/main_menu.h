@@ -17,5 +17,9 @@ private:
 
 	int selected;
 
-	bool upKey, downKey;
+	bool upKey, downKey, leftKey, rightKey;
+
+	void UpdatePlayString(sf::RenderWindow* window);
 };
+
+extern int difficulty;
